@@ -8,23 +8,11 @@ import Shop from "./pages/shop/shop.component";
 import Header from "./components/header/header.component";
 import SignInAndSignUp from "./pages/sign-in-and-sign-up/sign-in-and-sign-up.component";
 
-import { auth } from "./firebase/firebase.util";
-
-const HatsPage = props => {
-  console.log(props);
-  return (
-    <div>
-      <Link to="/">Home</Link>
-      <button onClick={() => props.history.push("/")}>Home2</button>
-      <h1>HATS PAGE </h1>
-    </div>
-  );
-};
+import { auth, createUserProfileDocument } from "./firebase/firebase.util";
 
 class App extends React.Component {
   constructor() {
     super();
-
     this.state = {
       currentUser: null
     };
@@ -33,8 +21,23 @@ class App extends React.Component {
   // will be call when unmount
   unsbscribeFromAuth = null;
   componentDidMount() {
-    this.unsbscribeFromAuth = auth.onAuthStateChanged(user => {
-      this.setState({ currentUser: user });
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+      if (userAuth) {
+        const userRef = await createUserProfileDocument(userAuth);
+
+        userRef.onSnapshot(snapShot => {
+          this.setState({
+            currentUser: {
+              id: snapShot.id,
+              ...snapShot.data()
+            }
+          });
+
+          console.log(this.state);
+        });
+      }
+
+      this.setState({ currentUser: userAuth });
     });
   }
 
@@ -45,15 +48,13 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Header currentUser={this.state.currentUser} />
+        <Header currentUser={this.state.currentUser} />{" "}
         <Switch>
-          <Route exact path="/" component={Homepage} />
-          <Route exact path="/directory/" component={Directory} />
-          <Route path="/hats/:abc" component={HatsPage} />
-          <Route path="/hats" component={HatsPage} />
-          <Route path="/shop" component={Shop} />
-          <Route path="/signin" component={SignInAndSignUp} />
-        </Switch>
+          <Route exact path="/" component={Homepage} />{" "}
+          <Route exact path="/directory/" component={Directory} />{" "}
+          <Route path="/shop" component={Shop} />{" "}
+          <Route path="/signin" component={SignInAndSignUp} />{" "}
+        </Switch>{" "}
       </div>
     );
   }
