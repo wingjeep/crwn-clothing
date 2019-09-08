@@ -4,6 +4,7 @@ import FormInput from "../form-input/form-input.component";
 import CustomButton from "../custom-button/custom-button.component";
 import { auth, signInWithGoogle } from "../../firebase/firebase.util";
 export default class SignIn extends Component {
+  //set state to store the current value
   constructor(props) {
     super(props);
     this.state = {
@@ -11,7 +12,7 @@ export default class SignIn extends Component {
       password: ""
     };
   }
-
+  //update the current value
   handleSubmit = async event => {
     event.preventDefault();
     const { email, password } = this.state;
@@ -23,6 +24,8 @@ export default class SignIn extends Component {
       console.log(err);
     }
   };
+
+  //event handler to catche input change and set the state
   handleChange = event => {
     const { value, name } = event.target;
     console.log(name, value, "--", event);
@@ -50,10 +53,12 @@ export default class SignIn extends Component {
             required
           />
           <div className="buttons">
+            {" "}
             <CustomButton type="Submit" label="Login" value="Login">
+              {" "}
+              {/* trigger the event handler set in form */}
               Sign in{" "}
             </CustomButton>
-
             <CustomButton
               type="Submit"
               label="Login"
