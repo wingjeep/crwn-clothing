@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import SHOP_DATA from "./shop.data";
 import CollectionPreview from "../../components/preview-collection/collection-preview.component";
-console.log(SHOP_DATA);
+// console.log(SHOP_DATA);
 export default class ShopPage extends Component {
   constructor(props) {
     super(props);

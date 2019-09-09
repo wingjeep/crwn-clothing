@@ -1,9 +1,10 @@
 import React from "react";
+import { connect } from "react-redux"; //connect is the higher order function
 import { Link } from "react-router-dom";
 import { ReactComponent as Logo } from "../../assets/crown.svg";
 import "./header.style.scss";
 import { auth } from "../../firebase/firebase.util";
-export default function Header({ currentUser }) {
+const Header = function({ currentUser }) {
   return (
     <div className="header">
       <Link to="/">
@@ -29,4 +30,12 @@ export default function Header({ currentUser }) {
       </div>
     </div>
   );
-}
+};
+const mapStateToProps = state => {
+  //state from reducer
+  //all reducer has state
+  console.log("educer store", state); //reducer store
+  return { currentUser: state.user.currentUser };
+};
+//mapStateToProps pass value as property
+export default connect(mapStateToProps)(Header);

@@ -5,7 +5,7 @@ export default function CustomButton({
   isGoogleSignIn,
   ...otherPros
 }) {
-  console.log("isGoogleSignIn", isGoogleSignIn);
+  // console.log("isGoogleSignIn", isGoogleSignIn);
   return (
     <button
       className={`${isGoogleSignIn ? "google-sign-in" : ""} custom-button`}
