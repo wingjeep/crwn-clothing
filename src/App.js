@@ -1,6 +1,6 @@
 // chapter 8 begin
 import React from "react";
-import { Switch, Route, Link } from "react-router-dom";
+import { Switch, Route, Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import Directory from "./components/directory/directory.component";
 import "./App.css";
@@ -16,6 +16,7 @@ class App extends React.Component {
   // will be call when unmount
   unsbscribeFromAuth = null;
   componentDidMount() {
+    //get the setCurrentUserLocal from mapDispatchToProps
     const { setCurrentUserLocal } = this.props;
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       if (userAuth) {
@@ -46,12 +47,23 @@ class App extends React.Component {
           <Route exact path="/" component={Homepage} />{" "}
           <Route exact path="/directory/" component={Directory} />{" "}
           <Route path="/shop" component={Shop} />{" "}
-          <Route path="/signin" component={SignInAndSignUp} />{" "}
+          <Route
+            exact
+            path="/signin"
+            render={() =>
+              this.props.currentUser ? <Redirect to="/" /> : <SignInAndSignUp />
+            }
+          />{" "}
         </Switch>{" "}
       </div>
     );
   }
 }
+const mapStateToProps = ({ user }) => ({
+  currentUser: user.currentUser
+});
+//mapDispatchToProps is an function that return an object of functions
+//those function dispatch an object to reduce, the object with payload and type
 
 //setCurrentUser return an object with type and payload
 //dispatch redux trigger action then reduce will pick up
@@ -65,6 +77,6 @@ const mapDispatchToProps = dispatch => {
   };
 };
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(App);
