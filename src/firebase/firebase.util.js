@@ -30,16 +30,14 @@
  //userAuth login auth return, ID is from this object (${userAuth.uid} )
  export const createUserProfileDocument = async (userAuth, additionalData) => {
    if (!userAuth) return;
-   console.log('userAuth', userAuth);
+
    const userRef = firestore.doc(`users/${userAuth.uid}`); // try to get the record from firestore database
-   console.log((`users/${userAuth.uid}`));
+
    const snapShot = await userRef.get();
-   console.log("snapShot", snapShot);
-   console.log("userRef", userRef);
-   console.log("snapShot.exists", snapShot.exists);
+
 
    if (!snapShot.exists) { //test if user exist in firebase database
-     console.log('here not exit');
+
      const {
        displayName,
        email

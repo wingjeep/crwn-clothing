@@ -6,7 +6,10 @@ import "./header.style.scss";
 import { auth } from "../../firebase/firebase.util";
 
 import CartIcon from "../cart-icon/cart-icon.component";
-const Header = function({ currentUser }) {
+import CartDropdown from "../cart-dropdown/cart-dropdown.component";
+
+const Header = function({ currentUser, hidden }) {
+  console.log(currentUser, hidden, "=====================");
   return (
     <div className="header">
       <Link to="/">
@@ -31,14 +34,15 @@ const Header = function({ currentUser }) {
         )}
         <CartIcon />
       </div>
+      {hidden ? null : <CartDropdown />}
     </div>
   );
 };
-const mapStateToProps = state => {
+const mapStateToProps = ({ user: { currentUser }, cart: { hidden } }) => {
   //state from reducer
   //all reducer has state
-  console.log("educer store", state); //reducer store
-  return { currentUser: state.user.currentUser };
+  console.log("educer store", currentUser); //reducer store
+  return { currentUser, hidden };
 };
 //mapStateToProps pass value as property
 export default connect(mapStateToProps)(Header);
