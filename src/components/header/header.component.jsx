@@ -9,7 +9,6 @@ import CartIcon from "../cart-icon/cart-icon.component";
 import CartDropdown from "../cart-dropdown/cart-dropdown.component";
 
 const Header = function({ currentUser, hidden }) {
-  console.log(currentUser, hidden, "=====================");
   return (
     <div className="header">
       <Link to="/">
@@ -38,11 +37,14 @@ const Header = function({ currentUser, hidden }) {
     </div>
   );
 };
-const mapStateToProps = ({ user: { currentUser }, cart: { hidden } }) => {
+const mapStateToProps = ({
+  user: { currentUser },
+  cart: { hidden, cartItems }
+}) => {
   //state from reducer
   //all reducer has state
-  console.log("educer store", currentUser); //reducer store
-  return { currentUser, hidden };
+
+  return { currentUser, hidden, cartItems };
 };
 //mapStateToProps pass value as property
 export default connect(mapStateToProps)(Header);
