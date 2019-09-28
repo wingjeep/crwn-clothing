@@ -6,6 +6,7 @@ import Directory from "./components/directory/directory.component";
 import "./App.css";
 import Homepage from "./pages/homepage/homepage.component";
 import Shop from "./pages/shop/shop.component";
+import CheckoutPage from "./pages/checkout/checkout.component";
 import Header from "./components/header/header.component";
 import SignInAndSignUp from "./pages/sign-in-and-sign-up/sign-in-and-sign-up.component";
 import { setCurrentUser } from "./redux/user/user.action";
@@ -47,6 +48,8 @@ class App extends React.Component {
           <Route exact path="/" component={Homepage} />
           <Route exact path="/directory/" component={Directory} />
           <Route path="/shop" component={Shop} />
+          <Route path="/checkout" component={CheckoutPage} />
+
           <Route
             exact
             path="/signin"
